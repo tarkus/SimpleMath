@@ -7,6 +7,7 @@ numbers    = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 opereators = ["+", "-"]
 
 content = ""
+answers = ""
 
 for idx in [0...count]
   foo = numbers[Math.floor(Math.random() * numbers.length)]
@@ -16,7 +17,9 @@ for idx in [0...count]
     foo = bar
     bar = tmp
   opereator = opereators[Math.floor(Math.random() * opereators.length)]
-  content += "<div class=\"question col-lg-4\"><span class='number'>#{foo}</span> #{opereator} #{bar} = </div>"
+  eval("var answer = " + foo + opereator + bar)
+  content += "<div class=\"questions\"><div class=\"question col-lg-4\"><span class='number'>#{foo}</span> #{opereator} #{bar} = </div></div>"
+  answers += "<div class=\"answers\"><div class=\"question col-lg-4\"><span class='number'>#{foo}</span> #{opereator} #{bar} = " + answer + "</div></div>"
     
 
 html = """
@@ -33,7 +36,7 @@ html = """
 
         .main {
           margin-top: 34px;   
-          font-size: 1.55em;
+          font-size: 1.40em;
           line-height: 1.65em;
         }
 
@@ -52,6 +55,10 @@ html = """
           font-size: 11px;
         }
 
+        .pagebreak { 
+          page-break-before: always; 
+        }
+
         footer {
           margin: 30px 40px 40px 26px;
           text-align: left;
@@ -63,11 +70,15 @@ html = """
     </head>
     <body>
       <header class="container">
-        <h1>Everyday Math</h1>
+        <h3>Everyday Math</h3>
         <h6>#{date}</h6>
       </header>
       <div class="container main">
         #{content}
+      </div>
+      <div class="pagebreak"></div>
+      <div class="container main">
+        #{answers}
       </div>
       <footer></footer>
     </body>
@@ -76,3 +87,5 @@ html = """
 
 require("fs").writeFileSync("index.html", html)
 console.log("DONE")
+
+module.exports = {}
